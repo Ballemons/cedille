@@ -2,6 +2,9 @@ AGDA=agda
 
 SRCDIR=src
 
+CEDLIBDIR=lib
+CEDNEWLIBDIR=new-lib
+
 AUTOGEN = \
 	cedille.agda \
 	cedille-types.agda \
@@ -88,6 +91,8 @@ TEMPLATES = $(TEMPLATESDIR)/Mendler.ced $(TEMPLATESDIR)/MendlerSimple.ced
 FILES = $(AUTOGEN) $(AGDASRC)
 
 SRC = $(FILES:%=$(SRCDIR)//%)
+CEDLIB := $(shell find $(CEDLIBDIR) -name '*.ced')
+CEDNEWLIB := $(shell find $(CEDNEWLIBDIR) -name '*.ced')
 OBJ = $(SRC:%.agda=%.agdai)
 
 LIB = --library-file=libraries --library=ial --library=cedille
@@ -138,6 +143,17 @@ cedille:	$(CEDILLE_DEPS)
 cedille-static: 	$(CEDILLE_DEPS)
 		$(CEDILLE_BUILD_CMD) --ghc-flag=-optl-static --ghc-flag=-optl-pthread -c $(SRCDIR)/main.agda
 		mv $(SRCDIR)/main $@
+
+.PHONY: cedille-libs
+cedille-lib: $(CEDLIB)
+
+cedille-newlib: $(CEDNEWLIB)
+
+.PHONY: %.ced
+%.ced : FORCE
+	cedille $@
+
+FORCE:
 
 .PHONY: cedille-docs
 cedille-docs: docs/info/cedille-info-main.info

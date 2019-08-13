@@ -31,3 +31,5 @@ install:
 
 script:
   - make
+  - make lib
+  - make new-lib
