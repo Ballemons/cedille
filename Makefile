@@ -123,7 +123,7 @@ libraries: ./ial/ial.agda-lib
 $(TEMPLATESDIR)/TemplatesCompiler: $(TEMPLATESDIR)/TemplatesCompiler.hs ./src/CedilleParser.hs
 	cd $(TEMPLATESDIR); ghc -dynamic --make -i../ TemplatesCompiler.hs
 
-./src/Templates.hs: $(TEMPLATES) $(TEMPLATESDIR)/TemplatesCompiler 
+./src/Templates.hs: $(TEMPLATESDIR)/TemplatesCompiler
 	$(TEMPLATESDIR)/TemplatesCompiler
 
 ./core/cedille-core: $(CEDILLE_CORE)
@@ -139,6 +139,7 @@ CEDILLE_BUILD_CMD_DYN = $(CEDILLE_BUILD_CMD) --ghc-flag=-dynamic
 cedille:	$(CEDILLE_DEPS)
 		$(CEDILLE_BUILD_CMD_DYN) -c $(SRCDIR)/main.agda
 		mv $(SRCDIR)/main $@
+		#make $(TEMPLATES)
 
 cedille-static: 	$(CEDILLE_DEPS)
 		$(CEDILLE_BUILD_CMD) --ghc-flag=-optl-static --ghc-flag=-optl-pthread -c $(SRCDIR)/main.agda
