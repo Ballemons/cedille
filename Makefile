@@ -96,8 +96,9 @@ FILES = $(AUTOGEN) $(AGDASRC)
 SRC = $(FILES:%=$(SRCDIR)//%)
 CEDLIB := $(shell find $(CEDLIBDIR) -name '*.ced')
 
-CEDLIBNAMES = $(notdir $(CEDLIB))
-ELABLIB := $(CEDLIBNAMES:%.ced=$(ELABDIR)/%.cdle)
+# CEDLIBNAMES = $(notdir $(CEDLIB))
+# ELABLIB := $(CEDLIBNAMES:%.ced=$(ELABDIR)/%.cdle)
+ELABLIB = $(shell find $(ELABDIR) -name '*.cdle')
 OBJ = $(SRC:%.agda=%.agdai)
 
 LIB = --library-file=libraries --library=ial --library=cedille
@@ -157,7 +158,7 @@ cedille-static: 	$(CEDILLE_DEPS)
 cedille-lib: cedille $(CEDLIB) $(ELABLIB)
 
 %.ced : FORCE
-	bin/cedille -e $@ elab
+	bin/cedille -e $@ $(ELABDIR)
 
 %.cdle : FORCE
 	bin/cedille $@
