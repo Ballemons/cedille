@@ -4,10 +4,10 @@
 
 (defun get-span-type(data)
   "Filter out special attributes from the data in a span"
-  ;; FIXME: Change this loop with a proper filter
-  (loop for (key . value) in data
-        if (eq 'expected-type key)
-        collecting value))
+  (cdr (assoc 'expected-type data)))
+
+(defun get-span-name(data)
+  (cdr (assoc 'name data)))
 
 (defun cedille-mode-synth-quantifiers ()
   "This function will syntehsize the proper lambdas that match
@@ -15,15 +15,14 @@ the quantifiers at the given hole"
   (interactive)
   (when se-mode-selected
     (let* (
-           (span (se-mode-selected))
-           (d (se-term-to-json span))
-           (txt (get-span-type d))
+           (term (se-mode-selected))
+           (d (se-term-to-json term))
+           (name (se-term-name term))
+           (type (get-span-type d))
            )
-      (while txt
-        (insert (car txt))
-        (setq txt (cdr txt)))
-      )
-  ))
+      (when (string= name 'Hole)
+        (insert type))
+      )))
 
 (provide 'cedille-mode-synthesis)
 ;;; cedille-mode-synthesis.el ends here
