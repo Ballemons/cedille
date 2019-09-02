@@ -1,10 +1,11 @@
 ;;; cedille-mode-synthesis.el --- description -*- lexical-binding: t; -*-
 
 ;;; Code:
-;;;
 
 (require 'subr-x)
 
+;; This function was taken as is from
+;; https://emacs.stackexchange.com/questions/33892/replace-element-of-alist-using-equal-even-if-key-does-not-exist/33893#33893
 (defun alist-set (key val alist &optional symbol)
   "Set property KEY to VAL in ALIST. Return new alist.
 This creates the association if it is missing, and otherwise sets
