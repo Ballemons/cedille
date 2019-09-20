@@ -60,13 +60,13 @@
 (defun delete-return-type(type)
   (replace-regexp-in-string "\\.[^\\.]*$" ". " type))
 
-(defun find-closing-delim(type start delim-open delim-close)
-  (setq open_delims_count 1)
-  (setq ch_close (aref delim-close 0))
-  (setq ch_open (aref delim-open 0))
-  (setq pos (1+ start)) ;; start right after the first delim
-  (while (and (< pos (length type))(> open_delims_count 0))
-    (setq c (aref type pos))
+  (defun find-closing-delim(type start delim-open delim-close)
+    (setq open_delims_count 1)
+    (setq ch_close (aref delim-close 0))
+    (setq ch_open (aref delim-open 0))
+    (setq pos (1+ start)) ;; start right after the first delim
+    (while (and (< pos (length type))(> open_delims_count 0))
+      (setq c (aref type pos))
     (if (= c ch_open)
         (setq open_delims_count (1+ open_delims_count))
       (if (= c ch_close)
